@@ -5,6 +5,7 @@ import com.example.cleanarchitecturewithdirtyhand.account.application.port.out.L
 import com.example.cleanarchitecturewithdirtyhand.account.domain.Account;
 import com.example.cleanarchitecturewithdirtyhand.account.domain.Money;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public class GetAccountBalanceService implements GetAccountBalanceQuery {
     private final LoadAccountPort loadAccountPort;
 
     @Override
+    @Transactional(readOnly = true)
     public Money getAccountBalance(Account.AccountId accountId) {
         return loadAccountPort.loadAccount(accountId, LocalDateTime.now())
                 .calculateBalance();
