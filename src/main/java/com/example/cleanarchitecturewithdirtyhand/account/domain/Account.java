@@ -1,12 +1,19 @@
 package com.example.cleanarchitecturewithdirtyhand.account.domain;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Value;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
+    @Getter
     private AccountId id;
+    @Getter
     private Money baselineBalance;
+    @Getter
     private ActivityWindow activityWindow;
 
     @Value
@@ -50,6 +57,26 @@ public class Account {
         this.activityWindow.addActivity(deposit);
 
         return true;
+    }
+
+    /**
+     * Creates an {@link Account} entity without an ID. Use to create a new entity that is not yet
+     * persisted.
+     */
+    public static Account withoutId(
+            Money baselineBalance,
+            ActivityWindow activityWindow) {
+        return new Account(null, baselineBalance, activityWindow);
+    }
+
+    /**
+     * Creates an {@link Account} entity with an ID. Use to reconstitute a persisted entity.
+     */
+    public static Account withId(
+            AccountId accountId,
+            Money baselineBalance,
+            ActivityWindow activityWindow) {
+        return new Account(accountId, baselineBalance, activityWindow);
     }
 
     private boolean mayWithdraw(Money money) {
