@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
@@ -57,6 +59,14 @@ public class Account {
         this.activityWindow.addActivity(deposit);
 
         return true;
+    }
+
+    public int howManyActivities() {
+        return this.getActivities().size();
+    }
+
+    public List<Activity> getActivities() {
+        return new ArrayList<>(this.activityWindow.getActivities());
     }
 
     /**
